@@ -14,6 +14,7 @@ export const handler = middy(
     // TODO: Return a presigned URL to upload a file for a TODO item with the provided id
     const imageId = uuid.v4()  
 
+    const userId = getUserId(event);
     const presignedUrl =  createAttachmentPresignedUrl(imageId)
 
     return {
@@ -32,12 +33,3 @@ handler
       credentials: true
     })
   )
-
-
-  // function getUploadUrl(imageId: string) {
-  //   return s3.getSignedUrl('putObject', {
-  //     Bucket: bucketName,
-  //     Key: imageId,
-  //     Expires: urlExpiration
-  //   })
-  // }

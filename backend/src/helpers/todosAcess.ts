@@ -10,7 +10,7 @@ const XAWS = AWSXRay.captureAWS(AWS)
 const logger = createLogger('TodosAccess')
 
 // TODO: Implement the dataLayer logic
-const userIdIndex = process.env.IMAGE_ID_INDEX
+const userIdIndex = process.env.USER_ID_INDEX
 export class TodoAccess {
 
     constructor(
@@ -55,11 +55,20 @@ export class TodoAccess {
         return todo
     }
 
-    async updateTodo(todo: TodoUpdate): Promise<TodoUpdate> {
+    async updateTodo(todo: TodoUpdate, userId: string, todoId: string): Promise<TodoUpdate> {
         console.log('Updating todos')
-        await this.docClient.put({
+        await this.docClient.update({
           TableName: this.todosTable,
-          Item: todo
+          Key: {
+            todoId: todoId,
+            userId:  userId,
+          },
+          UpdateExpression: "SET name = :name,  dueDate = :dueDate,  done = :done ",
+          ExpressionAttributeValues: {
+            ":name": todo.name,
+            ":dueDate": todo.dueDate,
+            ":done": todo.done,
+          },
         }).promise()
     
         return todo

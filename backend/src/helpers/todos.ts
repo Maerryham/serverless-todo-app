@@ -40,7 +40,7 @@ export async function createTodo(
 
 export async function updateTodo(
   updateTodoRequest: UpdateTodoRequest,
-  userId: string
+  userId: string, todoId: string
 ): Promise<TodoUpdate> {
 
 
@@ -48,7 +48,7 @@ export async function updateTodo(
     name: updateTodoRequest.name,
     dueDate: updateTodoRequest.dueDate,
     done: updateTodoRequest.done
-  })
+  }, userId, todoId)
 }
 
 export async function deleteTodo(
