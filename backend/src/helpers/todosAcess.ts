@@ -26,6 +26,9 @@ export class TodoAccess {
       }).promise()
   
       const items = result.Items
+      logger.info('getAllTodos ', {
+        result: items
+      })
       return items as TodoItem[]
     }
 
@@ -42,6 +45,9 @@ export class TodoAccess {
       }).promise()
 
       const items = result.Items
+      logger.info('getTodosForUser', {
+        result: items
+      })
       return items as TodoItem[]
     }
 
@@ -52,6 +58,9 @@ export class TodoAccess {
             Item: todo
         }).promise()
 
+        logger.info('createTodo ', {
+          result: todo
+        })
         return todo
     }
 
@@ -71,6 +80,9 @@ export class TodoAccess {
           },
         }).promise()
     
+        logger.info('updateTodo ', {
+          result: todo
+        })
         return todo
       }
     
@@ -80,6 +92,9 @@ export class TodoAccess {
           Item: todo
         }).promise()
     
+        logger.info('updateAttachedImage ', {
+          result: todo
+        })
         return todo
       }
 
@@ -95,6 +110,11 @@ export class TodoAccess {
           .promise()
 
         console.log('Get todo: ', result)
+
+        logger.info('updateAttachedImage ', {
+          fullResult: result,
+          result: !!result.Item
+        })
         return !!result.Item
       }
 
@@ -108,6 +128,9 @@ export class TodoAccess {
           }
         }).promise()
     
+        logger.info('updateAttachedImage ', {
+          result: 'Deleted'
+        })
         return 'Deleted'
       }
 
