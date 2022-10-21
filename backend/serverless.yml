@@ -24,7 +24,7 @@ provider:
   environment:
     TODOS_TABLE: todos-${self:provider.stage}
     TODOS_CREATED_AT_INDEX: CreatedAtIndex
-    USER_ID_INDEX: userIdIndex
+    USER_ID_INDEX: UserIdIndex
     ATTACHMENT_S3_BUCKET: serverless-c4-todo-images-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
 
@@ -168,52 +168,21 @@ resources:
             AttributeType: S
           - AttributeName: userId
             AttributeType: S
+          - AttributeName: createdAt
+            AttributeType: S
         KeySchema:
-          - AttributeName: todoId
+          - AttributeName: userId
             KeyType: HASH
+          - AttributeName: todoId
+            KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:provider.environment.TODOS_TABLE}
-        GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.USER_ID_INDEX}
+        LocalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.TODOS_CREATED_AT_INDEX}
             KeySchema:
-            - AttributeName: userId
-              KeyType: HASH
-            Projection:
+              - AttributeName: userId
+                KeyType: HASH
+              - AttributeName: createdAt
+                KeyType: RANGE
+            Projection: 
               ProjectionType: ALL
-
-    # TODO: Complete the bucket properties below. 
-    # Do not forget to add the CorsConfiguration propoerty
-    AttachmentsBucket:
-      Type: AWS::S3::Bucket
-      Properties:
-        BucketName: ${self:provider.environment.ATTACHMENT_S3_BUCKET}
-        CorsConfiguration:
-          CorsRules:
-            -
-              AllowedOrigins:
-                - '*'
-              AllowedHeaders:
-                - '*'
-              AllowedMethods:
-                - GET
-                - PUT
-                - POST
-                - DELETE
-                - HEAD
-              MaxAge: 3000
-
-    # TODO: Complete the policy below and attach it to the bucket defined above
-    # For cross referencing the name of the bucket, use "!Ref AttachmentsBucket"
-    BucketPolicy:
-      Type: AWS::S3::BucketPolicy
-      Properties:
-        PolicyDocument:
-          Id: MyPolicy
-          Version: "2012-10-17"
-          Statement:
-            - Sid: PublicReadForGetBucketObjects
-              Effect: Allow
-              Principal: '*'
-              Action: 's3:GetObject'
-              Resource: 'arn:aws:s3:::${self:provider.environment.ATTACHMENT_S3_BUCKET}/*'
-        Bucket: !Ref AttachmentsBucket

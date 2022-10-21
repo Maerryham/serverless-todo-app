@@ -11,7 +11,7 @@ const XAWS = AWSXRay.captureAWS(AWS)
 const logger = createLogger('TodosAccess')
 
 // TODO: Implement the dataLayer logic
-const userIdIndex = process.env.USER_ID_INDEX
+const createdAtIndex = process.env.TODOS_CREATED_AT_INDEX
 export class TodoAccess {
 
     constructor(
@@ -38,7 +38,7 @@ export class TodoAccess {
 
       const result = await this.docClient.query({
         TableName: this.todosTable,
-        IndexName : userIdIndex,
+        IndexName : createdAtIndex,
         KeyConditionExpression: 'userId = :userId',
         ExpressionAttributeValues: {
           ':userId': userId
