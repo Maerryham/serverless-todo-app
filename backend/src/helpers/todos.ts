@@ -5,13 +5,14 @@ import { CreateTodoRequest } from '../requests/CreateTodoRequest'
 import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
 import { createLogger } from '../utils/logger'
 import * as uuid from 'uuid'
-import * as createError from 'http-errors'
+// import * as createError from 'http-errors'
 import { parseUserId } from '../auth/utils';
-import { getUserId } from '../lambda/utils'
+// import { getUserId } from '../lambda/utils'
 import { TodoUpdate } from '../models/TodoUpdate';
 
 // TODO: Implement businessLogic
 
+const logger = createLogger('todos')
 const todoAccess = new TodoAccess()
 
 export async function getAllTodos(): Promise<TodoItem[]> {
@@ -26,7 +27,7 @@ export async function createTodo(
   const itemId = uuid.v4()
   const userId = parseUserId(jwtToken)
 
-  return await todoAccess.createTodo({
+  const result = await todoAccess.createTodo({
     todoId: itemId,
     userId: userId,
     name: createTodoRequest.name,
@@ -35,6 +36,11 @@ export async function createTodo(
     createdAt: new Date().toISOString(),
     attachmentUrl: createTodoRequest.attachmentUrl,
   })
+
+  logger.info('createTodo ', {
+    result
+  })
+  return result
 }
 
 
@@ -44,21 +50,31 @@ export async function updateTodo(
 ): Promise<TodoUpdate> {
 
 
-  return await todoAccess.updateTodo({
+  const result =  await todoAccess.updateTodo({
     name: updateTodoRequest.name,
     dueDate: updateTodoRequest.dueDate,
     done: updateTodoRequest.done
   }, userId, todoId)
+
+  logger.info('updateTodo ', {
+    result
+  })
+  return result
 }
 
 export async function deleteTodo(
   todoId: string, userId: string
 ): Promise<string> {
 
-  return await todoAccess.deleteTodo(
+  const result = await todoAccess.deleteTodo(
     todoId,
     userId
   )
+
+  logger.info('deleteTodo ', {
+    result
+  })
+  return result
 }
 
 
@@ -66,9 +82,14 @@ export async function todoExists(
   todoId: string
 ): Promise<boolean> {
 
-  return await todoAccess.todoExists(
+  const result = await todoAccess.todoExists(
     todoId
   )
+
+  logger.info('todoExists ', {
+    result
+  })
+  return result
 }
 
 
@@ -76,13 +97,23 @@ export async function getTodosForUser(
   todoId: string
 ): Promise<TodoItem[]> {
 
-  return await todoAccess.getTodosForUser(
+  const result = await todoAccess.getTodosForUser(
     todoId
   )
+
+  logger.info('getTodosForUser ', {
+    result
+  })
+  return result
 }
 
 export async function createAttachmentPresignedUrl(imageId: string) {
-  return AttachmentUtils(imageId)
+  const result =  AttachmentUtils(imageId)
+  
+  logger.info('createAttachmentPresignedUrl ', {
+    result
+  })
+  return result
 }
 
   
