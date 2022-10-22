@@ -37,7 +37,7 @@ export const handler = async (
       }
     }
   } catch (e) {
-    logger.error('User not authorized', { error: e.message })
+    logger.error('auth0Authorizer', 'User not authorized', JSON.stringify({ error: e.message }))
 
     return {
       principalId: 'user',
@@ -79,17 +79,21 @@ async function getJwKeys (jwksUrl: string, decodedHeader: Jwt) {
     });
 
     const key = data.keys.find(key => {
+      logger.info('getJwKeys', JSON.stringify({ input: {jwksUrl, decodedHeader}, output: key.kid === decodedHeader['kid']})) 
       return key.kid === decodedHeader['kid'];
     });
 
     validateKey(key);
-
+       logger.info('getJwKeys', JSON.stringify({ input: {jwksUrl, decodedHeader}, output: key})) 
+     
     return key;
 
   } catch (error) {
     const err = error as AxiosError;
     const errData = err.response?.data as { detail: string; message: null };
 
+    logger.error('getJwKeys', JSON.stringify({
+      output: 'Invalid Unable to retrieve jwkeys at this time '}), errData)
     throw new Error('Invalid Unable to retrieve jwkeys at this time '+ errData)
   }
 
@@ -97,36 +101,49 @@ async function getJwKeys (jwksUrl: string, decodedHeader: Jwt) {
 
 function validateKey(key: string) {
   if (!key || key.length === 0) {
+    logger.error('validateKey', JSON.stringify({
+      output: 'decodedJwt can not be empty'}))
+    
     throw new Error('decodedJwt can not be empty');
   }
 }
 
 function validateJwt(decodedJwt): void {
+  
   const { kid, iss, aud } = decodedJwt
-  if (!decodedJwt)
+  if (!decodedJwt){
+    logger.error('validateJwt', JSON.stringify({ input: decodedJwt, output: 'decodedJwt can not be empty'}))
     throw new Error('decodedJwt can not be empty');
-
-  if (!kid)
+  }
+  if (!kid){
+    logger.error('validateJwt', JSON.stringify({ input: decodedJwt, output: 'decodedJwt does not container kid'}))
     throw new Error('decodedJwt does not container kid');
-
-  if (!iss)
-    throw new Error('decodedJwt does not container kid');
-
-  if (!aud)
-    throw new Error('decodedJwt does not container kid');
-
-  // return true;
-
+  }
+  if (!iss){
+    logger.error('validateJwt', JSON.stringify({ input: decodedJwt, output: 'decodedJwt does not container iss'}))
+    throw new Error('decodedJwt does not container iss');
+  }
+  if (!aud){
+    logger.error('validateJwt', JSON.stringify({ input: decodedJwt, output: 'decodedJwt does not container aud'}))
+    throw new Error('decodedJwt does not container aud');
+  }
 }
 
 function getToken(authHeader: string): string {
-  if (!authHeader) throw new Error('No authentication header')
+  if (!authHeader){ 
+  logger.error('getToken', JSON.stringify({ input: authHeader, output: 'No authentication header'})) 
+  throw new Error('No authentication header')
+  }
 
-  if (!authHeader.toLowerCase().startsWith('bearer '))
+  if (!authHeader.toLowerCase().startsWith('bearer ')){
+    logger.error('getToken', JSON.stringify({ input: authHeader, output: 'No authentication header'})) 
     throw new Error('Invalid authentication header')
+  }
 
   const split = authHeader.split(' ')
   const token = split[1]
 
+  logger.info('getToken', JSON.stringify({ input: authHeader, output: token})) 
+    
   return token
 }
