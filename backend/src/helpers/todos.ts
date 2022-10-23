@@ -6,7 +6,6 @@ import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
 import { createLogger } from '../utils/logger'
 import * as uuid from 'uuid'
 // import * as createError from 'http-errors'
-import { parseUserId } from '../auth/utils';
 // import { getUserId } from '../lambda/utils'
 import { TodoUpdate } from '../models/TodoUpdate';
 
@@ -21,11 +20,11 @@ export async function getAllTodos(): Promise<TodoItem[]> {
 
 export async function createTodo(
   createTodoRequest: CreateTodoRequest,
-  jwtToken: string
+  userId: string
 ): Promise<TodoItem> {
 
   const itemId = uuid.v4()
-  const userId = parseUserId(jwtToken)
+
 
   const result = await todoAccess.createTodo({
     todoId: itemId,

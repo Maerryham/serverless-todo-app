@@ -23,7 +23,7 @@ provider:
   # Use these variables in the functions and resouorces section below. For example,
   # ${self:provider.environment.ATTACHMENT_S3_BUCKET}
   environment:
-    TODOS_TABLE: todos-${self:provider.stage}
+    TODOS_TABLE: Todos-${self:provider.stage}
     TODOS_CREATED_AT_INDEX: CreatedAtIndex
     USER_ID_INDEX: UserIdIndex
     ATTACHMENT_S3_BUCKET: serverless-c4-todo-images-${self:provider.stage}
@@ -65,10 +65,6 @@ functions:
           - dynamodb:Query
           - dynamodb:GetItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
-      - Effect: Allow
-        Action:
-          - dynamodb:Query
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}/index/${self:provider.environment.TODOS_CREATED_AT_INDEX}
       - Effect: Allow
         Action:
           - s3:GetObject

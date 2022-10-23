@@ -38,7 +38,6 @@ export class TodoAccess {
 
       const result = await this.docClient.query({
         TableName: this.todosTable,
-        IndexName : createdAtIndex,
         KeyConditionExpression: 'userId = :userId',
         ExpressionAttributeValues: {
           ':userId': userId
