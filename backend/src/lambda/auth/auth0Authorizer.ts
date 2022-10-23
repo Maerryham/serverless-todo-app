@@ -15,6 +15,7 @@ const logger = createLogger('auth')
 // To get this URL you need to go to an Auth0 page -> Show Advanced Settings -> Endpoints -> JSON Web Key Set
 // const jwksUrl = 'https://dev-g7sxmw0s.us.auth0.com/.well-known/jwks.json'
 
+const secretId = process.env.AUTH_0_SECRET_ID;
 const cert = `-----BEGIN CERTIFICATE-----
 MIIDDTCCAfWgAwIBAgIJbExKtwe/VrdkMA0GCSqGSIb3DQEBCwUAMCQxIjAgBgNV
 BAMTGWRldi1nN3N4bXcwcy51cy5hdXRoMC5jb20wHhcNMjIxMDE3MTIxMDI3WhcN
@@ -87,7 +88,8 @@ async function verifyToken(authHeader: string): Promise<JwtPayload> {
   // You should implement it similarly to how it was implemented for the exercise for the lesson 5
   // You can read more about how to do this here: https://auth0.com/blog/navigating-rs256-and-jwks/
   // const pem = jwkToPem(key);
-  return verify(token, cert, { algorithms: ['RS256'] }) as JwtPayload
+  // return verify(token, cert, { algorithms: ['RS256'] }) as JwtPayload
+  return verify(token, secretId) as JwtPayload
 }
 
 // async function getJwKeys (jwksUrl: string, decodedHeader: Jwt) {

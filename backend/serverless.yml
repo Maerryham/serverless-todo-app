@@ -28,6 +28,9 @@ provider:
     USER_ID_INDEX: UserIdIndex
     ATTACHMENT_S3_BUCKET: serverless-c4-todo-images-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
+    AUTH_0_SECRET_ID: Q3h0WGLCTUFkkxiLf40FORo5IQwKv6CVs6ChkWy-Hw2j6Z8uMcgioPtyem3PkuQA
+
+
 
   logs:
     # Enable API Gateway logs
