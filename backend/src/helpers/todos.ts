@@ -34,7 +34,7 @@ export async function createTodo(
     dueDate: createTodoRequest.dueDate,
     done: false,
     createdAt: new Date().toISOString(),
-    attachmentUrl: createTodoRequest.attachmentUrl,
+    attachmentUrl: '',
   })
 
   logger.info('createTodo ', {
@@ -87,7 +87,7 @@ export async function updateAttachedImage(
     todoId, userId, imageUrl
   )
 
-  logger.info('deleteTodo ', {
+  logger.info('updateAttachedImage ', {
     result
   })
   return result
