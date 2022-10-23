@@ -13,7 +13,7 @@ export const handler = middy(
     const todoId = event.pathParameters.todoId
     const userId = getUserId(event);
     // TODO: Remove a TODO item by id
-    const validTodoId = await todoExists(todoId)
+    const validTodoId = await todoExists(todoId, userId);
 
   if (!validTodoId) {
     return {
@@ -23,6 +23,7 @@ export const handler = middy(
       })
     }
   }
+  
   await deleteTodo(todoId, userId)
     
     return {

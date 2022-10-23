@@ -1,5 +1,5 @@
 import { TodoAccess } from './todosAcess'
-import { AttachmentUtils } from './attachmentUtils';
+import { AttachmentUtils, generateImageUrl } from './attachmentUtils';
 import { TodoItem } from '../models/TodoItem'
 import { CreateTodoRequest } from '../requests/CreateTodoRequest'
 import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
@@ -77,13 +77,29 @@ export async function deleteTodo(
   return result
 }
 
+export async function updateAttachedImage(
+  todoId: string, userId: string, imageId: string
+): Promise<string> {
+
+  const imageUrl = generateImageUrl(imageId);
+
+  const result = await todoAccess.updateAttachedImage(
+    todoId, userId, imageUrl
+  )
+
+  logger.info('deleteTodo ', {
+    result
+  })
+  return result
+}
+
 
 export async function todoExists(
-  todoId: string
+  todoId: string, userId: string
 ): Promise<boolean> {
 
   const result = await todoAccess.todoExists(
-    todoId
+    todoId, userId
   )
 
   logger.info('todoExists ', {

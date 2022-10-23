@@ -17,3 +17,7 @@ export async function AttachmentUtils(imageId: string) {
         Expires: urlExpiration
     })
 }
+
+export function generateImageUrl(imageId: string) {
+    return `https://${bucketName}.s3.amazonaws.com/${imageId}`
+}

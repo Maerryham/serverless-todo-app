@@ -87,32 +87,49 @@ export class TodoAccess {
         return todo
       }
     
-      async updateAttachedImage(todo: TodoItem): Promise<TodoItem> {
-        await this.docClient.put({
+      async updateAttachedImage(todoId: string, userId: string, imageUrl: string): Promise<string> {
+        await this.docClient.update({
           TableName: this.todosTable,
-          Item: todo
+          Key: {
+            todoId: todoId,
+            userId:  userId,
+          },
+          UpdateExpression: "SET imageUrl = :imageUrl",
+          ExpressionAttributeValues: {
+            ":imageUrl": imageUrl,
+          },
         }).promise()
     
         logger.info('updateAttachedImage ', {
-          result: todo
+          result: 'done'
         })
-        return todo
+        return 'uploaded'
       }
 
 
-      async  todoExists(todoId: string) {
+      async  todoExists(todoId: string, userId: string) {
         const result = await this.docClient
           .get({
             TableName: this.todosTable,
             Key: {
-              todoId: todoId
+              todoId: todoId,
+              userId: userId
             }
           })
           .promise()
 
+        //   .query({
+        //     TableName : this.todosTable,
+        //     IndexName : createdAtIndex,
+        //     KeyConditionExpression: 'todoId = :todoId',
+        //     ExpressionAttributeValues: {
+        //         ':todoId': todoId
+        //     }
+        // }).promise()
+
         console.log('Get todo: ', result)
 
-        logger.info('updateAttachedImage ', {
+        logger.info('todoExists ', {
           fullResult: result,
           result: !!result.Item
         })
@@ -129,7 +146,7 @@ export class TodoAccess {
           }
         }).promise()
     
-        logger.info('updateAttachedImage ', {
+        logger.info('deleteTodo ', {
           result: 'Deleted'
         })
         return 'Deleted'
