@@ -8,7 +8,8 @@
       "minLength": 1
     },
     "dueDate": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "done": {
       "type": "boolean"
