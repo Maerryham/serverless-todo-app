@@ -11,10 +11,11 @@ const bucketName = process.env.ATTACHMENT_S3_BUCKET
 const urlExpiration = process.env.SIGNED_URL_EXPIRATION
 
 export async function AttachmentUtils(imageId: string) {
+    console.log('AttachmentUtils Expiration', Number(urlExpiration))
     return s3.getSignedUrl('putObject', {
         Bucket: bucketName,
         Key: imageId,
-        Expires: urlExpiration
+        Expires: Number(urlExpiration)
     })
 }
 

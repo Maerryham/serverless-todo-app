@@ -147,11 +147,12 @@ export class TodoAccess {
         const item = result.Items[0]
     
         logger.info('todoById ' + JSON.stringify({
-          result: item || null
+          result: item as TodoItem || null,
+          oldresult: item || null
         }))
-        if (item.length > 0) return item as TodoItem
+        if (item.length !== 0) return item as TodoItem
 
-        return null
+        return item as TodoItem || null
       }
 
       async deleteTodo(todoId: string, userId: string): Promise<string> {
