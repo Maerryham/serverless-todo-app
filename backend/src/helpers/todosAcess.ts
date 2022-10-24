@@ -40,10 +40,12 @@ export class TodoAccess {
 
     async createTodo(todo: TodoItem): Promise<TodoItem> {
         console.log('Creating todos')
-        await this.docClient.put({
+        const response = await this.docClient.put({
             TableName: this.todosTable,
             Item: todo
         }).promise()
+
+        console.log('Creating todos' + response + todo)
 
         logger.info('createTodo ' + JSON.stringify({
           result: todo
