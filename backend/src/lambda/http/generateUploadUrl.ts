@@ -5,7 +5,7 @@ import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
 
 import { createAttachmentPresignedUrl, todoById, updateAttachedImage } from '../../helpers/todos'
-import { getUserId } from '../utils'
+
 import * as uuid from 'uuid'
 
 export const handler = middy(
