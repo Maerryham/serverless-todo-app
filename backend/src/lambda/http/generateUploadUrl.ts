@@ -27,7 +27,7 @@ export const handler = middy(
 
     await updateAttachedImage(todo, imageId)
 
-    const presignedUrl =  createAttachmentPresignedUrl(imageId)
+    const presignedUrl =  await createAttachmentPresignedUrl(imageId)
 
     return {
       statusCode: 201,
