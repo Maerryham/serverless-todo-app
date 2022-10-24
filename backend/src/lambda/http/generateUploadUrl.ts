@@ -4,7 +4,7 @@ import {  APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
 
-import { createAttachmentPresignedUrl, todoById, updateAttachedImage } from '../../helpers/todos'
+import { createAttachmentPresignedUrl, todoById, updateAttachedImage } from '../../businessLogic/todos'
 
 import * as uuid from 'uuid'
 

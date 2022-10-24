@@ -1,5 +1,5 @@
-import { TodoAccess } from './todosAcess'
-import { AttachmentUtils, generateImageUrl } from './attachmentUtils';
+import { TodoAccess } from '../dataLayer/todosAcess'
+import { AttachmentUtils, generateImageUrl } from '../helpers/attachmentUtils';
 import { TodoItem } from '../models/TodoItem'
 import { CreateTodoRequest } from '../requests/CreateTodoRequest'
 import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
