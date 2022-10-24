@@ -36,7 +36,7 @@ export async function createTodo(
     attachmentUrl: '',
   })
 
-  logger.info('createTodo ',  + JSON.stringify({
+  logger.info('createTodo ' + JSON.stringify({
     result
   }))
   return result
@@ -55,7 +55,7 @@ export async function updateTodo(
     done: updateTodoRequest.done
   }, userId, todoId)
 
-  logger.info('updateTodo ',  + JSON.stringify({
+  logger.info('updateTodo ' + JSON.stringify({
     result
   }))
   return result
@@ -70,7 +70,7 @@ export async function deleteTodo(
     userId
   )
 
-  logger.info('deleteTodo ',  + JSON.stringify({
+  logger.info('deleteTodo ' + JSON.stringify({
     result
   }))
   return result
@@ -83,7 +83,7 @@ export async function updateAttachedImage(
 
   const result = await todoAccess.updateAttachedImage(todo)
 
-  logger.info('updateAttachedImage ',  + JSON.stringify({
+  logger.info('updateAttachedImage ' + JSON.stringify({
     result
   }))
   return result
@@ -98,7 +98,7 @@ export async function todoExists(
     todoId, userId
   )
 
-  logger.info('todoExists ', + JSON.stringify({
+  logger.info('todoExists ' + JSON.stringify({
     result
   }))
   return result
@@ -112,7 +112,7 @@ export async function todoById(
     todoId,
   )
 
-  logger.info('todoById ', + JSON.stringify({
+  logger.info('todoById ' + JSON.stringify({
     result
   }))
   return result
@@ -127,7 +127,7 @@ export async function getTodosForUser(
     todoId
   )
 
-  logger.info('getTodosForUser ', + JSON.stringify({
+  logger.info('getTodosForUser ' + JSON.stringify({
     result
   }))
   return result
@@ -136,7 +136,7 @@ export async function getTodosForUser(
 export async function createAttachmentPresignedUrl(imageId: string) {
   const result =  AttachmentUtils(imageId)
   
-  logger.info('createAttachmentPresignedUrl ', + JSON.stringify({
+  logger.info('createAttachmentPresignedUrl ' + JSON.stringify({
     result
   }))
   return result

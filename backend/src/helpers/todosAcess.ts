@@ -58,7 +58,7 @@ export class TodoAccess {
             Item: todo
         }).promise()
 
-        logger.info('createTodo ',  + JSON.stringify({
+        logger.info('createTodo ' + JSON.stringify({
           result: todo
         }))
         return todo
@@ -80,7 +80,7 @@ export class TodoAccess {
           },
         }).promise()
     
-        logger.info('updateTodo ',  + JSON.stringify({
+        logger.info('updateTodo ' + JSON.stringify({
           result: todo
         }))
         return todo
@@ -100,7 +100,7 @@ export class TodoAccess {
           },
         }).promise()
     
-        logger.info('updateAttachedImage ',  + JSON.stringify({
+        logger.info('updateAttachedImage ' + JSON.stringify({
           result: todo
         }))
         return todo
@@ -121,7 +121,7 @@ export class TodoAccess {
 
         console.log('Get todo: ', result)
 
-        logger.info('todoExists ',  + JSON.stringify({
+        logger.info('todoExists ' + JSON.stringify({
           fullResult: result,
           result: !!result.Item
         }))
@@ -143,7 +143,7 @@ export class TodoAccess {
         console.log('Get todo: ', result)
         const item = result.Items[0]
     
-        logger.info('todoById ',  + JSON.stringify({
+        logger.info('todoById ' + JSON.stringify({
           result: item || null
         }))
         if (item.length > 0) return item as TodoItem
@@ -161,7 +161,7 @@ export class TodoAccess {
           }
         }).promise()
     
-        logger.info('deleteTodo ',  + JSON.stringify({
+        logger.info('deleteTodo '  + JSON.stringify({
           result: 'Deleted'
         }))
         return 'Deleted'
