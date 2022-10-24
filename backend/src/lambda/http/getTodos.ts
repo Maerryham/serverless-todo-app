@@ -14,19 +14,12 @@ export const handler = middy(
     const userId = getUserId(event);
     const todos = await getTodosForUser(userId)
 
-    // if (todos) {
       return {
-        statusCode: 201,
+        statusCode: 200,
         body: JSON.stringify({
           items: todos
         })
       }
-    // }
-    // return {
-    //   statusCode: 404,
-      
-    //   body: ''
-    // }
 
   })
 handler.use(
