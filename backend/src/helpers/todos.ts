@@ -6,7 +6,7 @@ import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
 import { createLogger } from '../utils/logger'
 import * as uuid from 'uuid'
 // import * as createError from 'http-errors'
-// import { getUserId } from '../lambda/utils'
+// import { getUserId } from '../lambda/utils'  
 import { TodoUpdate } from '../models/TodoUpdate';
 
 // TODO: Implement businessLogic
@@ -36,9 +36,9 @@ export async function createTodo(
     attachmentUrl: '',
   })
 
-  logger.info('createTodo ', {
+  logger.info('createTodo ',  + JSON.stringify({
     result
-  })
+  }))
   return result
 }
 
@@ -55,9 +55,9 @@ export async function updateTodo(
     done: updateTodoRequest.done
   }, userId, todoId)
 
-  logger.info('updateTodo ', {
+  logger.info('updateTodo ',  + JSON.stringify({
     result
-  })
+  }))
   return result
 }
 
@@ -70,9 +70,9 @@ export async function deleteTodo(
     userId
   )
 
-  logger.info('deleteTodo ', {
+  logger.info('deleteTodo ',  + JSON.stringify({
     result
-  })
+  }))
   return result
 }
 
@@ -80,13 +80,12 @@ export async function updateAttachedImage(
   todo: TodoItem, imageId: string
 ): Promise<TodoItem> {
   todo.attachmentUrl = generateImageUrl(imageId)
-  // const imageUrl = generateImageUrl(imageId);
 
   const result = await todoAccess.updateAttachedImage(todo)
 
-  logger.info('updateAttachedImage ', {
+  logger.info('updateAttachedImage ',  + JSON.stringify({
     result
-  })
+  }))
   return result
 }
 

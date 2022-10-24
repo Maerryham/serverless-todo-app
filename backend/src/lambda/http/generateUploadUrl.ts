@@ -16,15 +16,6 @@ export const handler = middy(
 
     const todo = await todoById(todoId)
 
-    // if (!validTodoId) {
-    //   return {
-    //     statusCode: 404,
-    //     body: JSON.stringify({
-    //       error: 'Todo does not exist'
-    //     })
-    //   }
-    // }
-
     await updateAttachedImage(todo, imageId)
 
     const presignedUrl =  await createAttachmentPresignedUrl(imageId)
