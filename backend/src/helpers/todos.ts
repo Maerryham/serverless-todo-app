@@ -77,14 +77,12 @@ export async function deleteTodo(
 }
 
 export async function updateAttachedImage(
-  todoId: string, userId: string, imageId: string
-): Promise<string> {
+  todo: TodoItem, imageId: string
+): Promise<TodoItem> {
+  todo.attachmentUrl = generateImageUrl(imageId)
+  // const imageUrl = generateImageUrl(imageId);
 
-  const imageUrl = generateImageUrl(imageId);
-
-  const result = await todoAccess.updateAttachedImage(
-    todoId, userId, imageUrl
-  )
+  const result = await todoAccess.updateAttachedImage(todo)
 
   logger.info('updateAttachedImage ', {
     result
@@ -101,9 +99,23 @@ export async function todoExists(
     todoId, userId
   )
 
-  logger.info('todoExists ', {
+  logger.info('todoExists ', + JSON.stringify({
     result
-  })
+  }))
+  return result
+}
+
+export async function todoById(
+  todoId: string
+): Promise<TodoItem> {
+
+  const result = await todoAccess.todoById(
+    todoId,
+  )
+
+  logger.info('todoById ', + JSON.stringify({
+    result
+  }))
   return result
 }
 
@@ -116,18 +128,18 @@ export async function getTodosForUser(
     todoId
   )
 
-  logger.info('getTodosForUser ', {
+  logger.info('getTodosForUser ', + JSON.stringify({
     result
-  })
+  }))
   return result
 }
 
 export async function createAttachmentPresignedUrl(imageId: string) {
   const result =  AttachmentUtils(imageId)
   
-  logger.info('createAttachmentPresignedUrl ', {
+  logger.info('createAttachmentPresignedUrl ', + JSON.stringify({
     result
-  })
+  }))
   return result
 }
 

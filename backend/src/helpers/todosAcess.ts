@@ -45,9 +45,9 @@ export class TodoAccess {
       }).promise()
 
       const items = result.Items
-      logger.info('getTodosForUser', {
+      logger.info('getTodosForUser' + JSON.stringify({
         result: items
-      })
+      }))
       return items as TodoItem[]
     }
 
@@ -58,9 +58,9 @@ export class TodoAccess {
             Item: todo
         }).promise()
 
-        logger.info('createTodo ', {
+        logger.info('createTodo ',  + JSON.stringify({
           result: todo
-        })
+        }))
         return todo
     }
 
@@ -80,29 +80,30 @@ export class TodoAccess {
           },
         }).promise()
     
-        logger.info('updateTodo ', {
+        logger.info('updateTodo ',  + JSON.stringify({
           result: todo
-        })
+        }))
         return todo
       }
     
-      async updateAttachedImage(todoId: string, userId: string, imageUrl: string): Promise<string> {
+      async updateAttachedImage(todo: TodoItem): Promise<TodoItem> {
         await this.docClient.update({
           TableName: this.todosTable,
           Key: {
-            todoId: todoId,
-            userId:  userId,
+            userId:  todo.userId,
+            todoId: todo.todoId,
+            
           },
-          UpdateExpression: "SET imageUrl = :imageUrl",
+          UpdateExpression: "SET attachmentUrl = :attachmentUrl",
           ExpressionAttributeValues: {
-            ":imageUrl": imageUrl,
+            ":attachmentUrl": todo.attachmentUrl,
           },
         }).promise()
     
-        logger.info('updateAttachedImage ', {
-          result: 'done'
-        })
-        return 'uploaded'
+        logger.info('updateAttachedImage ',  + JSON.stringify({
+          result: todo
+        }))
+        return todo
       }
 
 
@@ -117,22 +118,37 @@ export class TodoAccess {
           })
           .promise()
 
-        //   .query({
-        //     TableName : this.todosTable,
-        //     IndexName : createdAtIndex,
-        //     KeyConditionExpression: 'todoId = :todoId',
-        //     ExpressionAttributeValues: {
-        //         ':todoId': todoId
-        //     }
-        // }).promise()
 
         console.log('Get todo: ', result)
 
-        logger.info('todoExists ', {
+        logger.info('todoExists ',  + JSON.stringify({
           fullResult: result,
           result: !!result.Item
-        })
+        }))
         return !!result.Item
+      }
+
+      async  todoById(todoId: string): Promise<TodoItem> {
+        const result = await this.docClient
+          
+          .query({
+            TableName : this.todosTable,
+            IndexName : createdAtIndex,
+            KeyConditionExpression: 'todoId = :todoId',
+            ExpressionAttributeValues: {
+                ':todoId': todoId
+            }
+        }).promise()
+
+        console.log('Get todo: ', result)
+        const item = result.Items[0]
+    
+        logger.info('todoById ',  + JSON.stringify({
+          result: item || null
+        }))
+        if (item.length > 0) return item as TodoItem
+
+        return null
       }
 
       async deleteTodo(todoId: string, userId: string): Promise<string> {
@@ -145,9 +161,9 @@ export class TodoAccess {
           }
         }).promise()
     
-        logger.info('deleteTodo ', {
+        logger.info('deleteTodo ',  + JSON.stringify({
           result: 'Deleted'
-        })
+        }))
         return 'Deleted'
       }
 
