@@ -53,7 +53,7 @@ custom:
       info:
         version: v1.0.0
         title: Serverless Todo App
-        description: Serverless application for images sharing
+        description: Serverless application for Todos
     models:
       - name: CreateTodoRequest
         contentType: application/json
@@ -274,4 +274,4 @@ resources:
         RestApiId:
           Ref: ApiGatewayRestApi
         ValidateRequestBody: true
-        ValidateRequestParameters: false
+        ValidateRequestParameters: true
