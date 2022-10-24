@@ -5,8 +5,7 @@ import { CreateTodoRequest } from '../requests/CreateTodoRequest'
 import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
 import { createLogger } from '../utils/logger'
 import * as uuid from 'uuid'
-// import * as createError from 'http-errors'
-// import { getUserId } from '../lambda/utils'  
+ 
 import { TodoUpdate } from '../models/TodoUpdate';
 
 // TODO: Implement businessLogic
